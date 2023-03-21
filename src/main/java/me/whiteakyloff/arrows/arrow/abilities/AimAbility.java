@@ -9,19 +9,21 @@ import org.bukkit.util.Vector;
 import org.bukkit.entity.Arrow;
 import org.bukkit.entity.Player;
 
+import java.util.Comparator;
+
 public class AimAbility implements CustomArrowAbility
 {
     @Override
     public void apply(Player shooter, Arrow arrow, CustomArrow customArrow, Entity hitEntity) {
         var aimRadius = Double.parseDouble(customArrow.getArrowData().get("arrow-settings-aim"));
 
-        var target = arrow.getNearbyEntities(aimRadius, aimRadius, aimRadius).stream()
+        var target = shooter.getNearbyEntities(aimRadius, aimRadius, aimRadius).stream()
                 .filter(entity -> entity != shooter && !entity.isDead() && entity.getType().isAlive() && shooter.hasLineOfSight(entity))
-                .findFirst().orElse(null);
-        if (target == null) {
+                .min(Comparator.comparingDouble(entity -> entity.getLocation().distance(shooter.getLocation())));
+        if (!target.isPresent()) {
             return;
         }
-        var vector = target.getLocation().clone().add(0.0, 0.5, 0.0).subtract(arrow.getLocation()).toVector();
+        var vector = target.get().getLocation().clone().add(0.0, 0.5, 0.0).subtract(arrow.getLocation()).toVector();
 
         arrow.setVelocity(arrow.getVelocity().clone().normalize().clone().add(vector.clone().normalize()).normalize().add(new Vector(0.0, 0.0, 0.0)));
      }

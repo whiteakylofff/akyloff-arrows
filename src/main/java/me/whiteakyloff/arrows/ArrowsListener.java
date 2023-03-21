@@ -89,7 +89,7 @@ public class ArrowsListener implements Listener
     @EventHandler(ignoreCancelled = true)
     public void onFreezeMoving(PlayerMoveEvent event) {
         if (this.javaPlugin.getArrowsManager().getSpheresStorage().containsKey(event.getPlayer())) {
-            event.setCancelled(true);
+            event.getPlayer().teleport(event.getFrom());
         }
     }
 
