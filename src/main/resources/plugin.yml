@@ -1,0 +1,6 @@
+name: AkyloffArrows
+version: '${project.version}'
+main: me.whiteakyloff.arrows.AkyloffArrows
+depend: [ ProtocolLib ]
+commands:
+  arrows: { }
