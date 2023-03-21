@@ -42,8 +42,9 @@ public class ArrowsManager
             var arrowAbilities = Arrays.stream(String.valueOf(section.get("arrow-type")).split(", "))
                     .map(type -> CustomArrowType.valueOf(type).getArrowAbility())
                     .collect(Collectors.toList());
-            var arrowData = this.buildArrowsData(section);
-
+            var arrowData = section.entrySet().stream()
+                    .filter(entry -> entry.getKey().startsWith("arrow-settings"))
+                    .collect(Collectors.toMap(Map.Entry::getKey, entry -> String.valueOf(entry.getValue()), (a, b) -> a, HashMap::new));
             this.arrows.add(new CustomArrow(arrowName, arrowUUID, itemStack.getItem(), arrowData, arrowAbilities));
         }
      }
@@ -62,14 +63,6 @@ public class ArrowsManager
 
     public CustomArrow getArrow(String name) {
         return this.arrows.stream().filter(x -> x.getName().equalsIgnoreCase(name)).findAny().orElse(null);
-    }
-
-    private HashMap<String, String> buildArrowsData(HashMap<String, Object> section) {
-        var arrowsData = new HashMap<String, String>();
-
-        section.entrySet().stream().filter(entry -> entry.getKey().startsWith("arrow-settings"))
-                .forEach(entry -> arrowsData.put(entry.getKey(), String.valueOf(entry.getValue())));
-        return arrowsData;
     }
 
     public void disableManager() {

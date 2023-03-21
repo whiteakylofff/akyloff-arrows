@@ -114,24 +114,16 @@ public class Sphere
     }
 
     public void explode() {
-        var value = 80;
         var velocityPackets = new ArrayList<WrapperPlayServerEntityVelocity>();
 
         for (var block : this.blocks.entrySet()) {
-            var entityId = block.getKey();
-            var blockPosition = block.getValue();
-            var direction = getDirection(blockPosition, this.hitPlayer.getLocation().toVector()).normalize().multiply(value);
-
-            var velocityX = direction.getX() / 250.0D;
-            var velocityY = direction.getY() / 250.0D;
-            var velocityZ = direction.getZ() / 250.0D;
-
             var velocityPacket = new WrapperPlayServerEntityVelocity();
+            var direction = this.getDirection(block.getValue(), this.hitPlayer.getLocation().toVector()).normalize().multiply(80);
 
-            velocityPacket.setEntityID(entityId);
-            velocityPacket.setVelocityX(velocityX);
-            velocityPacket.setVelocityY(velocityY);
-            velocityPacket.setVelocityZ(velocityZ);
+            velocityPacket.setEntityID(block.getKey());
+            velocityPacket.setVelocityX(direction.getX() / 250.0D);
+            velocityPacket.setVelocityY(direction.getY() / 250.0D);
+            velocityPacket.setVelocityZ(direction.getZ() / 250.0D);
 
             velocityPackets.add(velocityPacket);
         }
@@ -159,30 +151,34 @@ public class Sphere
     }
 
     private double toYaw(Vector vector) {
-        var x = -vector.getX();
+        var x = vector.getX();
         var z = vector.getZ();
 
-        return Math.toDegrees(Math.atan2(z, x) + Math.PI);
+        return Math.toDegrees(Math.atan2(-x, z)) % 360;
     }
 
     private double toPitch(Vector vector) {
         var x = vector.getX();
-        var y = -vector.getY();
+        var y = vector.getY();
+        var z = vector.getZ();
 
-        var xy = Math.sqrt(x * x + y * y);
-        return Math.toDegrees(Math.atan2(y, xy) + Math.PI);
+        var xz = Math.sqrt(Math.pow(x, 2) + Math.pow(z, 2));
+        return Math.toDegrees(Math.atan2(-y, xz));
     }
 
     private Vector getDirection(Vector vector, Vector other) {
         vector = vector.clone().subtract(other);
 
-        var rotX = this.toYaw(vector);
-        var rotY = this.toPitch(vector);
+        var rotX = toYaw(vector);
+        var rotY = toPitch(vector);
         var cosY = Math.cos(Math.toRadians(rotY));
+        var sinY = Math.sin(Math.toRadians(rotY));
+        var cosX = Math.cos(Math.toRadians(rotX));
+        var sinX = Math.sin(Math.toRadians(rotX));
 
-        vector.setX(-cosY * Math.sin(Math.toRadians(rotX)));
-        vector.setY(-Math.sin(Math.toRadians(rotY)));
-        vector.setZ(cosY * Math.cos(Math.toRadians(rotX)));
+        vector.setY(-sinY);
+        vector.setX(-cosY * sinX);
+        vector.setZ(cosY * cosX);
         return vector;
     }
 
