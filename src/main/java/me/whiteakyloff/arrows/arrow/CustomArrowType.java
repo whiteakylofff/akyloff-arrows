@@ -1,6 +1,10 @@
 package me.whiteakyloff.arrows.arrow;
 
+import lombok.var;
+
 import me.whiteakyloff.arrows.arrow.abilities.*;
+import me.whiteakyloff.arrows.arrow.abilities.data.ArrowProvider;
+import me.whiteakyloff.arrows.arrow.abilities.data.CustomArrowAbility;
 
 public enum CustomArrowType
 {
@@ -22,5 +26,16 @@ public enum CustomArrowType
             }
             default: return null;
         }
+    }
+
+    public static boolean isHasAbility(CustomArrowType arrowType, CustomArrowAbility arrowAbility) {
+        var clazz = arrowAbility.getClass();
+
+        if (!clazz.isAnnotationPresent(ArrowProvider.class)) {
+            throw new IllegalArgumentException("ArrowAbility class " + clazz.getName() + " is not annotated @ArrowProvider");
+        }
+        var arrowProvider = clazz.getAnnotation(ArrowProvider.class);
+
+        return arrowProvider.arrowType() == arrowType;
     }
 }

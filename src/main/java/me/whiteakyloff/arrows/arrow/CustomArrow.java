@@ -5,7 +5,7 @@ import lombok.AllArgsConstructor;
 
 import org.bukkit.inventory.ItemStack;
 
-import me.whiteakyloff.arrows.arrow.abilities.CustomArrowAbility;
+import me.whiteakyloff.arrows.arrow.abilities.data.CustomArrowAbility;
 
 import java.util.List;
 import java.util.UUID;

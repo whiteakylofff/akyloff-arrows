@@ -3,6 +3,9 @@ package me.whiteakyloff.arrows.arrow.abilities;
 import lombok.var;
 
 import me.whiteakyloff.arrows.arrow.CustomArrow;
+import me.whiteakyloff.arrows.arrow.CustomArrowType;
+import me.whiteakyloff.arrows.arrow.abilities.data.ArrowProvider;
+import me.whiteakyloff.arrows.arrow.abilities.data.CustomArrowAbility;
 
 import org.bukkit.entity.Entity;
 import org.bukkit.util.Vector;
@@ -11,6 +14,7 @@ import org.bukkit.entity.Player;
 
 import java.util.Comparator;
 
+@ArrowProvider(arrowType = CustomArrowType.AIM)
 public class AimAbility implements CustomArrowAbility
 {
     @Override

@@ -1,4 +1,4 @@
-package me.whiteakyloff.arrows.arrow.abilities;
+package me.whiteakyloff.arrows.arrow.abilities.data;
 
 import me.whiteakyloff.arrows.AkyloffArrows;
 import me.whiteakyloff.arrows.arrow.CustomArrow;

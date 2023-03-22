@@ -3,8 +3,7 @@ package me.whiteakyloff.arrows;
 import lombok.var;
 import lombok.AllArgsConstructor;
 
-import me.whiteakyloff.arrows.arrow.abilities.AimAbility;
-import me.whiteakyloff.arrows.arrow.abilities.TeleportAbility;
+import me.whiteakyloff.arrows.arrow.CustomArrowType;
 import me.whiteakyloff.arrows.arrow.events.ArrowFlyingEvent;
 import me.whiteakyloff.arrows.arrow.events.ArrowHitEvent;
 
@@ -53,12 +52,12 @@ public class ArrowsListener implements Listener
                 var shooter = (Player) arrow.getShooter();
 
                 customArrow.getArrowAbilities().stream()
-                        .filter(arrowAbility -> AimAbility.class.isAssignableFrom(arrowAbility.getClass()) || (TeleportAbility.class.isAssignableFrom(arrowAbility.getClass()) && customArrow.getArrowData().get("arrow-settings-teleport").equalsIgnoreCase("BY_ARROW")))
+                        .filter(arrowAbility ->  CustomArrowType.isHasAbility(CustomArrowType.AIM, arrowAbility) || (CustomArrowType.isHasAbility(CustomArrowType.TELEPORT, arrowAbility) && customArrow.getArrowData().get("arrow-settings-teleport").equalsIgnoreCase("BY_ARROW")))
                         .forEach(arrowAbility -> arrowAbility.apply(shooter, arrow, customArrow, null));
                 if (arrow.hasMetadata("hitArrow")) {
                     var hitEvent = (ProjectileHitEvent) arrow.getMetadata("hitArrow").get(0).value();
 
-                    Bukkit.getPluginManager().callEvent(new ArrowHitEvent(shooter, arrow, customArrow, hitEvent.getHitBlock(), hitEvent.getHitEntity()));
+                    Bukkit.getPluginManager().callEvent(new ArrowHitEvent(shooter, arrow, customArrow, hitEvent.getHitEntity()));
                     this.cancel();
                 }
             }
@@ -78,10 +77,10 @@ public class ArrowsListener implements Listener
         var shooter = event.getShooter();
 
         event.getCustomArrow().getArrowAbilities().stream()
-                .filter(arrowAbility -> !AimAbility.class.isAssignableFrom(arrowAbility.getClass()))
+                .filter(arrowAbility -> !CustomArrowType.isHasAbility(CustomArrowType.AIM, arrowAbility))
                 .forEach(customArrowAbility -> customArrowAbility.apply(event));
-        if (shooter.hasMetadata("sneakedPlayer " + arrow.getEntityId())) {
-            shooter.removeMetadata("sneakedPlayer " + arrow.getEntityId(), this.javaPlugin);
+        if (shooter.hasMetadata("sneakedPlayer")) {
+            shooter.removeMetadata("sneakedPlayer", this.javaPlugin);
         }
         arrow.remove();
     }

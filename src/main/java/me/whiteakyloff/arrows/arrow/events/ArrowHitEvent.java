@@ -5,7 +5,6 @@ import lombok.AllArgsConstructor;
 
 import me.whiteakyloff.arrows.arrow.CustomArrow;
 
-import org.bukkit.block.Block;
 import org.bukkit.entity.Arrow;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
@@ -21,8 +20,6 @@ public class ArrowHitEvent extends Event
     private final Arrow arrow;
 
     private final CustomArrow customArrow;
-
-    private final Block hitBlock;
 
     private final Entity hitEntity;
 
