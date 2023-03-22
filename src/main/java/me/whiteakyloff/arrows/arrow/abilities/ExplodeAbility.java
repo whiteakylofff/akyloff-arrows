@@ -12,8 +12,8 @@ public class ExplodeAbility implements CustomArrowAbility
 {
     @Override
     public void apply(Player shooter, Arrow arrow, CustomArrow customArrow, Entity hitEntity) {
-        var settings = customArrow.getArrowData().get("arrow-settings-explode").split(" ");
+        var explodeData = customArrow.getArrowData().get("arrow-settings-explode").split(" ");
 
-        arrow.getLocation().createExplosion(Integer.parseInt(settings[0]), Boolean.parseBoolean(settings[1]), Boolean.parseBoolean(settings[2]));
+        arrow.getLocation().createExplosion(Integer.parseInt(explodeData[0]), Boolean.parseBoolean(explodeData[1]), Boolean.parseBoolean(explodeData[2]));
     }
 }
