@@ -23,13 +23,17 @@ public class ArrowsCommand implements CommandExecutor
             sender.sendMessage("no permission, clown.");
             return true;
         }
-        if (args.length == 0 || args.length > 2) {
+        if (args.length != 2) {
             sender.sendMessage("incorrect args.");
             return true;
         }
-        var player = Bukkit.getPlayer(args[0]);
-        var customArrow = this.javaPlugin.getArrowsManager().getArrow(args[1]);
+        var player = Bukkit.getPlayer(args[1]);
+        var customArrow = this.javaPlugin.getArrowsManager().getArrow(args[0]);
 
+        if (player == null) {
+            sender.sendMessage("player is null.");
+            return true;
+        }
         if (customArrow == null) {
             sender.sendMessage("arrow is null.");
             return true;

@@ -32,7 +32,7 @@ public enum CustomArrowType
         var clazz = arrowAbility.getClass();
 
         if (!clazz.isAnnotationPresent(ArrowProvider.class)) {
-            throw new IllegalArgumentException("ArrowAbility class " + clazz.getName() + " is not annotated @ArrowProvider");
+            throw new IllegalArgumentException("CustomArrowAbility class " + clazz.getName() + " is not annotated @ArrowProvider");
         }
         var arrowProvider = clazz.getAnnotation(ArrowProvider.class);
 
