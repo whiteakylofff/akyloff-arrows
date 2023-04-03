@@ -141,11 +141,13 @@ public class ItemBuilder
     }
 
     public ItemBuilder addPotionEffect(PotionEffect effect) {
-        if(!(this.item.getItemMeta() instanceof PotionMeta)) return this;
+        if (!(this.item.getItemMeta() instanceof PotionMeta)) {
+            return this;
+        }
+        var itemMeta = (PotionMeta) this.item.getItemMeta();
 
-        PotionMeta meta = (PotionMeta) this.item.getItemMeta();
-        meta.addCustomEffect(effect, true);
-        this.item.setItemMeta(meta);
+        itemMeta.addCustomEffect(effect, true);
+        this.item.setItemMeta(itemMeta);
 
         return this;
     }
