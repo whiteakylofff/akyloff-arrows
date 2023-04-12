@@ -1,5 +1,15 @@
 # types: AIM, EXPLODE, TELEPORT (BY_ARROW, AT_POINT), FREEZE.
 
+messages:
+  prefix: '&6&lAkyloffArrows &7| &f'
+
+  no-permission: 'Недостаточно прав.'
+  incorrect-args: 'Недостаточно аргументов.'
+  null-args:
+     player: 'Данный игрок не найден.'
+     custom-arrow: 'Стрела с таким ID не найдена.'
+  successfully: 'Кастомная стрела была успешно выдана игроку {player}.'
+
 arrows:
   - id: 'superarrow1'
     item:

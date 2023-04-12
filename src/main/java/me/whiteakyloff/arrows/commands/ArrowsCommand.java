@@ -20,26 +20,26 @@ public class ArrowsCommand implements CommandExecutor
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         if (!sender.hasPermission("arrows.give")) {
-            sender.sendMessage("no permission, clown.");
+            this.javaPlugin.getMessages().get("no-permission").sendMessage(sender);
             return true;
         }
         if (args.length != 2) {
-            sender.sendMessage("incorrect args.");
+            this.javaPlugin.getMessages().get("incorrect-args").sendMessage(sender);
             return true;
         }
         var player = Bukkit.getPlayer(args[1]);
         var customArrow = this.javaPlugin.getArrowsManager().getArrow(args[0]);
 
         if (player == null) {
-            sender.sendMessage("player is null.");
+            this.javaPlugin.getMessages().get("null-args.player").sendMessage(sender);
             return true;
         }
         if (customArrow == null) {
-            sender.sendMessage("arrow is null.");
+            this.javaPlugin.getMessages().get("null-args.custom-arrow").sendMessage(sender);
             return true;
         }
         this.giveItem(player, customArrow.getItemStack());
-        sender.sendMessage("arrow was gave to " + player.getName());
+        this.javaPlugin.getMessages().get("successfully").sendMessage(sender, string -> string.replace("{player}", player.getName()));
         return true;
     }
 
