@@ -16,7 +16,6 @@ public class AkyloffArrows extends JavaPlugin
 {
     @Getter
     @ConfigName("messages")
-    @SuppressWarnings("unused")
     private Messages messages;
 
     @Getter
