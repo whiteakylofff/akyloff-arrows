@@ -23,7 +23,9 @@ public class AkyloffArrows extends JavaPlugin
 
     @Override
     public void onLoad() {
-        ConfigManager.create(this, "config.yml").target(this).load();
+        this.saveDefaultConfig();
+
+        ConfigManager.create(this).target(this).load();
     }
 
     @Override
